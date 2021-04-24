@@ -11,8 +11,8 @@ import fonts from '../styles/fonts';
 
 interface PlantProps extends RectButtonProps {
     data: {
-        name: string,
-        photo: string,
+        name: string;
+        photo: string;
     }
 }
 

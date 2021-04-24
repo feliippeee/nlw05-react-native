@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/core';
 import React, { useState } from 'react';
 import { 
     SafeAreaView,
@@ -9,9 +8,12 @@ import {
     KeyboardAvoidingView,
     Platform,
     TouchableWithoutFeedback,
-    Keyboard
+    Keyboard,
+    Alert
  } from 'react-native';
- import { Button } from '../components/Button';
+import { useNavigation } from '@react-navigation/core';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Button } from '../components/Button';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
@@ -34,7 +36,22 @@ import fonts from '../styles/fonts';
     }
 
     function handleSubmit() {
-        navigation.navigate('Confirmation');
+        if(!name) 
+            return Alert.alert('Me diz como chamar você 😥');
+
+            try { 
+
+                AsyncStorage.setItem('@plantmanager:user', name);            
+                navigation.navigate('Confirmation', {
+                    title: 'Prontinho',
+                    subtitle: 'Agora vamos começar a cuidar das suas plantinhas com muito cuidado.',
+                    buttonTitle: 'Começar',
+                    icon: 'smile',
+                    nextScreen: 'PlantSelect',
+                });
+            }catch {
+                Alert.alert('Não foi possível salvar o seu nome 😥');
+            }
     }
     return (
          <SafeAreaView style={styles.container}>
