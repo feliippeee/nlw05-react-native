@@ -10,7 +10,7 @@ import {
     TouchableOpacity
 } from 'react-native';
 import { getBottomSpace } from 'react-native-iphone-x-helper';
-import { useRoute } from '@react-navigation/core';
+import { useRoute, useNavigation } from '@react-navigation/core';
 import DateTimePicker, {Event} from '@react-native-community/datetimepicker';
 import { format, isBefore } from 'date-fns';
 import { PlantProps, savePlant } from '../libs/storage';
@@ -20,13 +20,12 @@ import waterdrop from '../assets/waterdrop.png';
 import { Button } from '../components/Button';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
-import { useNavigation } from '@react-navigation/core';
 
 interface Params {
   plant: PlantProps
 }
 export function PlantSave() {
-    const [selectedDatetime, setSelectedDateTime] = useState(new Date());
+    const [selectedDateTime, setSelectedDateTime] = useState(new Date());
     const [showDatePicker, setShowDatePicker] = useState(Platform.OS === 'ios');
     const route = useRoute();
     const {plant} = route.params as Params;
@@ -55,7 +54,7 @@ export function PlantSave() {
         try {
             await savePlant({
                 ...plant,
-                dateTimeNotification : selectedDatetime
+                dateTimeNotification : selectedDateTime
             });
             navigation.navigate('Confirmation', {
                 title: 'Tudo certo',
@@ -72,8 +71,8 @@ export function PlantSave() {
 
     return (
         <ScrollView 
-        style={styles.container}
-        showsVerticalScrollIndicator={false}
+            contentContainerStyle={styles.container}
+            showsVerticalScrollIndicator={false}
         >
         <View style={styles.container}>
         <View style={styles.plantInfo}>
@@ -107,7 +106,7 @@ export function PlantSave() {
 
             {showDatePicker && ( 
             <DateTimePicker
-                value={selectedDatetime}
+                value={selectedDateTime}
                 mode="time"
                 display="spinner"
                 onChange={handleChangeTime} 
@@ -119,7 +118,7 @@ export function PlantSave() {
                         style={styles.dateTimePickerButton}
                         onPress={handleOpenDateTimePickerForAndroid}>
                         <Text style={styles.dateTimePickerText}>
-                            {`Mudar ${format(selectedDatetime, 'HH:mm')} `}
+                            {`Mudar ${format(selectedDateTime, 'HH:mm')} `}
                         </Text>
                     </TouchableOpacity>
                 )
@@ -134,7 +133,7 @@ export function PlantSave() {
         </View>
         </ScrollView>
     )
-}
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -160,7 +159,7 @@ const styles = StyleSheet.create({
         fontFamily: fonts.heading,
         fontSize: 24,
         color: colors.heading,
-        marginTop: 15,
+        marginTop: 5,
     },
     plantAbout: {
         textAlign: 'center',
@@ -177,7 +176,7 @@ const styles = StyleSheet.create({
         padding: 20,
         borderRadius: 20,
         position: 'relative',
-        bottom: 60
+        bottom: 40
 
 
     },
@@ -203,7 +202,8 @@ const styles = StyleSheet.create({
     dateTimePickerButton: {
         width: '100%',
         alignItems: 'center',
-        paddingVertical: 40
+        paddingVertical: 20,
+        color: colors.blue_light
     },
     dateTimePickerText: {
         color: colors.heading,

@@ -5,13 +5,14 @@ import {
     Text,
     View
 } from 'react-native';
-import { useNavigation } from '@react-navigation/core';
+
+import { useNavigation, useRoute } from '@react-navigation/core';
 
 import { Button } from '../components/Button';
 
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
-import { useRoute } from '@react-navigation/core';
+
 
 interface Params {
     title: string;
@@ -79,7 +80,7 @@ const styles = StyleSheet.create({
         padding: 30
     },
     title: {
-        fontSize: 22,
+        fontSize: 24, //22
         fontFamily: fonts.heading,
         textAlign: 'center',
         color: colors.heading,

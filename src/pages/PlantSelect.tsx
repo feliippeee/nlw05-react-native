@@ -42,7 +42,7 @@ export function PlantSelect() {
         if(environment === 'all')
         return setFilteredPlants(plants);
 
-        const filtered = plants.filter(plant =>
+        const filtered = plants?.filter(plant =>
             plant.environments.includes(environment)
             );
             setFilteredPlants(filtered);
@@ -134,11 +134,11 @@ export function PlantSelect() {
             <View style={styles.plants}>
                  <FlatList 
                     data={filteredPlants}
-                    keyExtractor={(item) => String(item.id)}
+                    keyExtractor={item => String(item.id)}
                     renderItem={({ item}) => (
                         <PlantCardPrimary 
                             data={item} 
-                            onPress={() =>handlePlantSelect(item)}
+                            onPress={() => handlePlantSelect(item)}
                         />
                     )}
                     showsVerticalScrollIndicator={false}
@@ -184,6 +184,7 @@ const styles = StyleSheet.create({
         height: 40,
         justifyContent: 'center',
         paddingBottom: 5,
+        paddingRight: 35,
         marginLeft: 32,
         marginVertical: 32
     },
